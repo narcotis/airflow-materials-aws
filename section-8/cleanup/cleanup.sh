@@ -25,4 +25,4 @@ aws ecr delete-repository --force --repository-name=airflow-eks-docker-staging
 
 # EKS
 # This can take up to 15 minutes
-eksctl delete cluster --wait --name=airflow
+eksctl delete cluster --wait --name=optimizer

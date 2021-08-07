@@ -79,6 +79,7 @@ Resources:
                 docker: 18
               commands:
                 - apt-key adv --refresh-keys --keyserver keyserver.ubuntu.com
+                - rm -f /etc/apt/sources.list.d/sbt.list
                 - apt-get -y update
                 - apt-get -y install jq
             pre_build:
@@ -120,7 +121,7 @@ Resources:
       RoleArn: !Sub arn:aws:iam::${AWS::AccountId}:role/AirflowCodePipelineServiceRole
       ArtifactStore:
         Type: S3
-        Location: !Sub airflow-optimizer-dev-codepipeline-artifacts
+        Location: !Sub optimizer-back-dev-artifacts
       Stages:
         - Name: Source
           Actions:

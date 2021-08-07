@@ -2,24 +2,71 @@ apiVersion: eksctl.io/v1alpha5
 kind: ClusterConfig
 
 metadata:
-  name: airflow
-  region: eu-west-3
-  version: "1.16"
+  name: optimizer
+  region: ap-northeast-2
+  version: "1.19"
 
 managedNodeGroups:
   - name: workers
-    instanceType: t3.medium
+    instanceType: t3.large
     privateNetworking: true
     minSize: 1
     maxSize: 3
     desiredCapacity: 3
-    volumeSize: 20
+    volumeSize: 50
+    availabilityZones: ['ap-northeast-2a', 'ap-northeast-2b', 'ap-northeast-2c']
     ssh:
       allow: true
       publicKeyName: airflow-workstation
     labels: { role: worker }
     tags:
       nodegroup-role: worker
+    iam:
+      withAddonPolicies:
+        ebs: true
+        imageBuilder: true
+        efs: true
+        albIngress: true
+        autoScaler: true
+        cloudWatch: true
+        externalDNS: true
+  - name: train-server
+    instanceType: p3.2xlarge
+    privateNetworking: true
+    minSize: 0
+    maxSize : 2
+    desiredCapacity: 1
+    volumeSize: 50
+    availabilityZones: ['ap-northeast-2a', 'ap-northeast-2c']
+    ssh:
+      allow: true
+      publicKeyName: airflow-workstation
+    labels: { role: train }
+    tags:
+      nodegroup-role: train
+    iam:
+      withAddonPolicies:
+        ebs: true
+        imageBuilder: true
+        efs: true
+        albIngress: true
+        autoScaler: true
+        cloudWatch: true
+        externalDNS: true
+  - name: auth-server
+    instanceType: t3.medium
+    privateNetworking: true
+    minSize: 1
+    maxSize: 2
+    desiredCapacity: 1
+    volumeSize: 20
+    availabilityZones: ['ap-northeast-2a', 'ap-northeast-2c']
+    ssh:
+      allow: true
+      publicKeyName: airflow-workstation
+    labels: { role: manager }
+    tags:
+      nodegroup-role: manager
     iam:
       withAddonPolicies:
         ebs: true

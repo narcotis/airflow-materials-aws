@@ -4,11 +4,11 @@
 TEMPLATE=file://airflow-materials-aws/section-7/code-pipeline/airflow-staging-pipeline-upgrade.cfn.yml
 
 # Update the stack
-aws cloudformation update-stack --stack-name=airflow-staging-pipeline \
+aws cloudformation create-stack --stack-name=airflow-staging-pipeline \
     --template-body=$TEMPLATE \
-    --parameters ParameterKey=EksClusterName,ParameterValue=airflow \
+    --parameters ParameterKey=EksClusterName,ParameterValue=optimizer \
     ParameterKey=KubectlRoleName,ParameterValue=AirflowCodeBuildServiceRole \
-    ParameterKey=GitHubUser,ParameterValue=marclamberti \
-    ParameterKey=GitHubToken,ParameterValue=cb53803446b0968e132e2e8ff729c7596fb0d7c8 \
+    ParameterKey=GitHubUser,ParameterValue=narcotis \
+    ParameterKey=GitHubToken,ParameterValue=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 \
     ParameterKey=GitSourceRepo,ParameterValue=airflow-eks-docker \
     ParameterKey=GitBranch,ParameterValue=staging
