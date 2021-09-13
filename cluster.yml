@@ -30,13 +30,13 @@ managedNodeGroups:
         autoScaler: true
         cloudWatch: true
         externalDNS: true
-  - name: train-server
+  - name: train
     instanceType: p3.2xlarge
     privateNetworking: true
     minSize: 1
     maxSize : 2
     desiredCapacity: 1
-    volumeSize: 80
+    volumeSize: 100
     availabilityZones: ['ap-northeast-2a', 'ap-northeast-2c']
     ssh:
       allow: true
@@ -56,9 +56,55 @@ managedNodeGroups:
   - name: auth-server
     instanceType: t3.medium
     privateNetworking: true
+    minSize: 2
+    maxSize: 3
+    desiredCapacity: 2
+    volumeSize: 20
+    availabilityZones: ['ap-northeast-2a', 'ap-northeast-2c']
+    ssh:
+      allow: true
+      publicKeyName: airflow-workstation
+    labels: { role: auth }
+    tags:
+      nodegroup-role: auth
+    iam:
+      withAddonPolicies:
+        ebs: true
+        imageBuilder: true
+        efs: true
+        albIngress: true
+        autoScaler: true
+        cloudWatch: true
+        externalDNS: true
+  - name: inference-server
+    instanceType: t3.medium
+    privateNetworking: true
     minSize: 1
-    maxSize: 2
+    maxSize: 20
     desiredCapacity: 1
+    volumeSize: 20
+    availabilityZones: ['ap-northeast-2a','ap-northeast-2b', 'ap-northeast-2c']
+    ssh:
+      allow: true
+      publicKeyName: airflow-workstation
+    labels: { role: inference }
+    tags:
+      nodegroup-role: inference
+    iam:
+      withAddonPolicies:
+        ebs: true
+        imageBuilder: true
+        efs: true
+        albIngress: true
+        autoScaler: true
+        cloudWatch: true
+        externalDNS: true
+  - name: manager
+    instanceType: t3.medium
+    privateNetworking: true
+    minSize: 2
+    maxSize: 3
+    desiredCapacity: 2
     volumeSize: 20
     availabilityZones: ['ap-northeast-2a', 'ap-northeast-2c']
     ssh:
