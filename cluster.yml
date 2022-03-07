@@ -168,3 +168,26 @@ managedNodeGroups:
         autoScaler: true
         cloudWatch: true
         externalDNS: true
+  - name: event-stream
+    instanceType: t3.medium
+    privateNetworking: true
+    minSize: 3
+    maxSize: 6
+    desiredCapacity: 3
+    volumeSize: 100
+    availabilityZones: ['ap-northeast-2a', 'ap-northeast-2d', 'ap-northeast-2c']
+    ssh:
+      allow: true
+      publicKeyName: airflow-workstation
+    labels: { role: event-stream }
+    tags:
+      nodegroup-role: event-stream
+    iam:
+      withAddonPolicies:
+        ebs: true
+        imageBuilder: true
+        efs: true
+        albIngress: true
+        autoScaler: true
+        cloudWatch: true
+        externalDNS: true
