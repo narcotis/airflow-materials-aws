@@ -10,9 +10,9 @@ managedNodeGroups:
   - name: develop
     instanceType: t3.medium
     privateNetworking: true
-    minSize: 5
+    minSize: 8
     maxSize: 10
-    desiredCapacity: 5
+    desiredCapacity: 8
     volumeSize: 50
     availabilityZones: ['ap-northeast-2a', 'ap-northeast-2d', 'ap-northeast-2c']
     ssh:
